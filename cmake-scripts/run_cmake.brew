@@ -1,0 +1,5 @@
+cmake -DCMAKE_PREFIX_PATH=$(brew --prefix llvm) \
+      -DCMAKE_INSTALL_PREFIX=../root \
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=on \
+      -DCMAKE_BUILD_TYPE=RelWithDebugInfo \
+      ../
