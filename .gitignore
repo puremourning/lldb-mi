@@ -2,3 +2,6 @@ build
 __pycache__
 *.sw[mnop]
 *.un~
+build*/
+compile_commands.json
+.clangd
