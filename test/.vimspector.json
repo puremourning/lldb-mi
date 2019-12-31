@@ -1,0 +1,30 @@
+{
+  "configurations": {
+    "run": {
+      "adapter": "vscode-python",
+      "configuration": {
+        "request": "launch",
+        "type": "python",
+        "cwd": "${workspaceRoot}",
+        "program": "${file}",
+        "stopOnEntry": true,
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "debugOptions": [
+          "DebugStdLib",
+          "StopOnEntry",
+          "ShowReturnValue"
+        ],
+        "env": {
+          "PATH": "../build/src:$PATH"
+        }
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": ""
+        }
+      }
+    }
+  }
+}

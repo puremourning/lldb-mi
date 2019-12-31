@@ -1,0 +1,20 @@
+{
+  "configurations": {
+    "attach": {
+      "adapter": "lldb-vscode",
+      "configuration": {
+        "request": "attach",
+        "program": "${workspaceRoot}/build/src/lldb-mi"
+      }
+    },
+    "run": {
+      "adapter": "lldb-vscode",
+      "configuration": {
+        "request": "launch",
+        "program": "${workspaceRoot}/build/src/lldb-mi",
+        "args": [],
+        "stopAtEntry": true
+      }
+    }
+  }
+}
