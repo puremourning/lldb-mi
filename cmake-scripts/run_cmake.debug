@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+cmake -DCMAKE_INSTALL_PREFIX=../root-debug \
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=on \
+      -DCMAKE_BUILD_TYPE=Debug \
+      -DLLVM_DIR=../../build \
+      ../
+
+
+# vim: ft=sh
