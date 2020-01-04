@@ -1,14 +1,14 @@
 {
   "configurations": {
     "attach": {
-      "adapter": "lldb-vscode",
+      "adapter": "lldb-vscode-debug",
       "configuration": {
         "request": "attach",
         "program": "${workspaceRoot}/build/src/lldb-mi"
       }
     },
     "run": {
-      "adapter": "lldb-vscode",
+      "adapter": "lldb-vscode-debug",
       "configuration": {
         "request": "launch",
         "program": "${workspaceRoot}/build/src/lldb-mi",
