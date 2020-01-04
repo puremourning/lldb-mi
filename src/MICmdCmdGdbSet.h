@@ -81,6 +81,7 @@ private:
   bool OptionFnDisassemblyFlavor(const CMIUtilString::VecString_t &vrWords);
   bool OptionFnBreakpoint(const CMIUtilString::VecString_t &vrWords);
   bool OptionFnFallback(const CMIUtilString::VecString_t &vrWords);
+  bool OptionFnNewConsole(const CMIUtilString::VecString_t &vrWords);
 
   // Attributes:
 private:

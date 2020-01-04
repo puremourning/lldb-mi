@@ -16,6 +16,7 @@
 #include "MICmnLLDBDebugSessionInfo.h"
 #include "MICmnMIResultRecord.h"
 #include "MICmnMIValueConst.h"
+#include <cstdlib>
 
 // Instantiations:
 const CMICmdCmdGdbSet::MapGdbOptionNameToFnGdbOptionPtr_t
@@ -28,6 +29,7 @@ const CMICmdCmdGdbSet::MapGdbOptionNameToFnGdbOptionPtr_t
         {"solib-search-path", &CMICmdCmdGdbSet::OptionFnSolibSearchPath},
         {"disassembly-flavor", &CMICmdCmdGdbSet::OptionFnDisassemblyFlavor},
         {"fallback", &CMICmdCmdGdbSet::OptionFnFallback},
+        {"new-console", &CMICmdCmdGdbSet::OptionFnNewConsole},
         {"breakpoint", &CMICmdCmdGdbSet::OptionFnBreakpoint}};
 
 //++
@@ -206,6 +208,41 @@ bool CMICmdCmdGdbSet::GetOptionFn(const CMIUtilString &vrPrintFnName,
   }
 
   return false;
+}
+
+bool CMICmdCmdGdbSet::OptionFnNewConsole(
+  const CMIUtilString::VecString_t &vrWords) {
+  bool bNewConsole = false;
+  bool bOk = true;
+
+  if (vrWords.size() > 1)
+    // Too many arguments.
+    bOk = false;
+  else if (vrWords.size() == 0)
+    // If no arguments, default is "on".
+    bNewConsole = true;
+  else if (CMIUtilString::Compare(vrWords[0], "on"))
+    bNewConsole = true;
+  else if (CMIUtilString::Compare(vrWords[0], "off"))
+    bNewConsole = false;
+  else
+    // Unrecognized argument.
+    bOk = false;
+
+  if (!bOk) {
+    // Report error.
+    m_bGbbOptionFnHasError = true;
+    m_strGdbOptionFnError = MIRSRC(IDS_CMD_ERR_GDBSET_OPT_NEWCONSOLE);
+    return MIstatus::failure;
+  }
+
+  // TDDO: Like, set the environment variable ?
+  // Should we maybe set the launch flag too ?
+  if (bNewConsole) {
+    ::setenv( "LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY", "TRUE", false );
+  }
+
+  return MIstatus::success;
 }
 
 //++

@@ -439,6 +439,8 @@ const CMICmnResources::SRsrcTextData
         {IDS_CMD_ERR_INFO_PRINTFN_FAILED, "The request '%s' failed."},
         {IDS_CMD_ERR_GDBSET_OPT_TARGETASYNC,
          "'target-async' expects \"on\" or \"off\""},
+        {IDS_CMD_ERR_GDBSET_OPT_NEWCONSOLE,
+         "'new-console' expects \"on\" or \"off\""},
         {IDS_CMD_ERR_GDBSET_OPT_BREAKPOINT,
          "'breakpoint' expects \"pending on\" or \"pending off\""},
         {IDS_CMD_ERR_GDBSET_OPT_SOLIBSEARCHPATH,
