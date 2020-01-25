@@ -1,0 +1,61 @@
+stages:
+- stage: Build
+  jobs:
+  - job: 'macos'
+    pool:
+      vmImage: 'macOS-10.14'
+    steps:
+    - bash: |
+        brew install llvm
+      displayName: 'Install dependencies'
+
+    - bash: |
+        mkdir build
+        pushd build
+          cmake -G "Unix Makefiles" \
+                -DCMAKE_PREFIX_PATH=$(brew --prefix llvm)\
+                -DCMAKE_INSTALL_PREFIX=/usr/local\
+                -DCMAKE_BUILD_TYPE=RelWithDebInfo\
+                ../
+          export DESTDIR=$(pwd)/staging
+          cmake --build . --parallel
+          cmake --install .
+        popd
+      displayName: Build lldb-mi
+
+    - bash: |
+        mkdir -p package
+        tar -C $(pwd)/build/staging \
+            -cPzvf package/lldb-mi-$(Build.SourceVersion).tar.gz \
+            usr
+      displayName: Build package
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'package-macos'
+        targetPath: 'package/lldb-mi-$(Build.SourceVersion).tar.gz'
+
+
+- stage: "Publish"
+  dependsOn:
+  - "Build"
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: 'Publish'
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    - task: DownloadPipelineArtifact@0
+      inputs:
+        artifactName: 'package-macos'
+        targetPath: $(Build.ArtifactStagingDirectory)
+
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: puremourning
+        repositoryName: '$(Build.Repository.Name)'
+        action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'manual'
+        tag: "$(Build.BuildId)"
+        isPreRelease: true
