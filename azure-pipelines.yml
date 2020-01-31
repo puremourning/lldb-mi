@@ -6,7 +6,9 @@ stages:
       vmImage: 'macOS-10.14'
     steps:
     - bash: |
+        brew update
         brew install llvm
+        brew outdated llvm || brew upgrade llvm
       displayName: 'Install dependencies'
 
     - bash: |
